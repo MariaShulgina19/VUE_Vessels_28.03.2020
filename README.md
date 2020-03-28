@@ -39,8 +39,22 @@ vessel: name, identification number/mmsi and coordinates.
 ```
 ## Development ideas
 ### Do it lighter and code more readable:
+```
+Delete a lot of not needed code parts left in the variant, that has been loaded out. 
+During lots of tries to improve project different libraries have been loaded and tried.
+
+```
 ### Add more data:
+```
+More information about vessels 
+can be added: country, deadweight, ETA(estimated arriving time), course and dimensions, photos, etc.
+
+```
 ### Improve design:
+```
+Design and functionality can be improved by testing it among the users.
+
+```
 
 
 
