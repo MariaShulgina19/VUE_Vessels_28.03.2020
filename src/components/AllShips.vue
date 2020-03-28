@@ -52,15 +52,11 @@ export default {
     allShips2: null, // added to try to do new list with coordinates /MMSI list
     allShips3: [], 
     newlist:[],
-    // allShipsMMSI: null,
-    // allShipsFirstVessel: null,
     nextID: 1,
     locbyMMSI : null,
     isOpen: false,
-    
- 
     currentDate:new Date().getFullYear()+'-'+(new Date().getMonth()+1)+'-'+new Date().getDate(),
-    yesterdayDate:this.currentDate-1,
+    // yesterdayDate:this.currentDate-1,
     
     // All port calles for today
     newadress: `https://meri.digitraffic.fi/api/v1/port-calls/FIKOK?date=` + new Date().getFullYear()+'-'+(new Date().getMonth()+1)+'-'+new Date().getDate(),
