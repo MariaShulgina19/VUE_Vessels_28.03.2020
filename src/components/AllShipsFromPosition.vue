@@ -3,7 +3,7 @@
 
      <div class="label">
         <!-- <h5>Vessels in 50 km distance from Port</h5> -->
-        <button class="Buttion1" v-on:click ="Showcontent">Vessels in 50 km distance from Port</button>
+        <button class="Buttion1" v-on:click ="Showcontent">Vessels in 50 km distance from Port  status: {{information}}</button>
      </div>
 
     <div class="content" v-show="isOpen">
@@ -67,6 +67,7 @@ export default {
        nextID: 1,
        nextIDcomb:1,
 
+      information: 'loading',
 
        testtable:null,
        testtable2:null,
@@ -74,7 +75,7 @@ export default {
 
            //     currentDate:new Date().getFullYear()+'-'+(new Date().getMonth()+1)+'-'+new Date().getDate(), vv
            // yesterdayDate:this.currentDate-1,
-       newadress: `https://meri.digitraffic.fi/api/v1/locations/latitude/63.859912/longitude/23.03862/radius/30/from/2020-03-25T08:00Z`,
+      //  newadress: `https://meri.digitraffic.fi/api/v1/locations/latitude/63.859912/longitude/23.03862/radius/30/from/2020-03-25T08:00Z`,
           // All port calles for today
           //api gives information only two hourg ago
        newadress2: `https://meri.digitraffic.fi/api/v1/locations/latitude/63.859912/longitude/23.03862/radius/50/from/`+ new Date().getFullYear()+'-'+("0" + (new Date().getMonth() + 1)).slice(-2)+'-'+("0" + new Date().getDate()).slice(-2)+'T'+("0" + (new Date().getHours()-4) ).slice(-2)+':'+("0" + new Date().getMinutes()).slice(-2)+'Z',
@@ -151,6 +152,7 @@ export default {
                         
 
                           this.nextID++;
+                          this.information='data received';
 
 
                     }) .catch (function(error){
