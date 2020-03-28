@@ -44,5 +44,5 @@ vessel: name, identification number/mmsi and coordinates.
 
 
 
-### Customize configuration
+### Link
 See [How does it works](https://dos.seamk.fi/~epedu+k1601808/dist/).
