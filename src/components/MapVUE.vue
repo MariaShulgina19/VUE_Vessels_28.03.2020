@@ -109,7 +109,7 @@
       My geolocation: {{ geolocPosition }}
     </div> -->
   </div>
-   <p>Note: Last update for free data request  {{ timeofdatarequest}}</p> 
+   <p>Note: Last update for free data request  {{ timeofdatarequest}}. Status: {{information}}</p> 
 </div>
 </template>
 
@@ -162,7 +162,7 @@ export default {
         markers3: null,
         
         timeofdatarequest: new Date().getFullYear()+'-'+("0" + (new Date().getMonth() + 1)).slice(-2)+'-'+("0" + new Date().getDate()).slice(-2)+' '+("0" + (new Date().getHours()-4) ).slice(-2)+':'+("0" + new Date().getMinutes()).slice(-2),
-  
+        information: 'data on the way',
     }
   },
 
@@ -177,6 +177,7 @@ export default {
      // taking data from combinedtable from local storage
     this.markers3=JSON.parse(window.localStorage.getItem('combinedtable'))
    console.log('markers3 from local storage' + this.markers3)
+   this.information='data ok',
 
  this.$nextTick(function () { //23.3
                 // console.log(this.markers3);
