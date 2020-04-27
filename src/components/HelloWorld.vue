@@ -13,21 +13,24 @@ export default {
     msg: String
   },
 
-  data: function() {
+  data: function() 
+  {
       return {
-  currentDate:new Date().getDate()+'-'+(new Date().getMonth()+1)+'-'+new Date().getFullYear(), //getDate
-   days : ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"],
-  months :["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"],
-//  currentDateDay2: this.days[new Date().getUTCDay()],
-  currentDateDay: new Date().getUTCDay(),
-  // currentDateDay2: null
-}
+                currentDate:new Date().getDate()+'-'+(new Date().getMonth()+1)+'-'+new Date().getFullYear(), //getDate
+                days : ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"],
+                months :["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"],
+                //  currentDateDay2: this.days[new Date().getUTCDay()],
+                currentDateDay: new Date().getUTCDay(),
+                // currentDateDay2: null
+            }
   },
-    computed: {
-    // a computed getter
-    currentDateDay2: function () {
-      // `this` points to the vm instance
-      return this.days[new Date().getUTCDay()]
+  
+  computed: 
+  {
+        // a computed getter
+        currentDateDay2: function () {
+        // `this` points to the vm instance
+         return this.days[new Date().getUTCDay()]
     }
   }
 }

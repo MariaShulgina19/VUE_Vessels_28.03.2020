@@ -1,4 +1,5 @@
 <template>
+<!-- VESSELS CALLED TO PORT  -->
   <div class="allships">
 
     <div class="label">
@@ -56,9 +57,7 @@ export default {
     locbyMMSI : null,
     isOpen: false,
     currentDate:new Date().getFullYear()+'-'+(new Date().getMonth()+1)+'-'+new Date().getDate(),
-    // yesterdayDate:this.currentDate-1,
     
-    // All port calles for today
     newadress: `https://meri.digitraffic.fi/api/v1/port-calls/FIKOK?date=` + new Date().getFullYear()+'-'+(new Date().getMonth()+1)+'-'+new Date().getDate(),
       // Vessel location by mmsi
     newadress2: `https://meri.digitraffic.fi/api/v1/locations/latest/` //+ 356364000, 10.03
@@ -74,14 +73,13 @@ export default {
     
           Showcontent: function(){
           
-              this.isOpen = !this.isOpen; //this.isOpen if just open this
-            
-              
+           this.isOpen = !this.isOpen; //this.isOpen if just open this
+        },
     },
-    },
-      created(){ 
 
-         axios.get(this.newadress)  //FIKOK by date
+    created(){ 
+
+         axios.get(this.newadress)  //FIKOK by date. This data do not contain coordinates.
                     
                   
           .then(response => {
@@ -91,10 +89,10 @@ export default {
                 //creating table with axios adresses to request coordinate by mmsi number
                 this.allShips2=this.allShips.map(function(allShips) { 
 
-                  return `https://meri.digitraffic.fi/api/v1/locations/latest/`+allShips.mmsi;
+                  return `https://meri.digitraffic.fi/api/v1/locations/latest/`+allShips.mmsi; 
                 });
 
-
+              //to get coordinate need to get in separately for each vessel
                 for (var i=0; i<this.allShips2.length; i++) {
                     // console.log('TRY ALL SHIPS' + this.allShips[i])
                     axios.get(this.allShips2[i]) //MMSI{356364000}
@@ -108,12 +106,7 @@ export default {
                           this.allShips3.push({id: this.nextID, loc:this.locbyMMSI})  //
                          
                           this.nextID++;
-                          
-
-                              //11.03 18:37 try to safe to local storage, its ok
-                                // const data = JSON.stringify(this.newlist)
-                                //   window.localStorage.setItem('newlist', data);
-
+                        
                           
                       }) //response end
                     .catch (function(error){
