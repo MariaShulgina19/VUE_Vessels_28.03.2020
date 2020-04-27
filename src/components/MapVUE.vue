@@ -5,24 +5,22 @@
 <!-- https://vuelayers.github.io/#/docs/quickstart -->
  <div>
 
-     <vl-map ref="map" :load-tiles-while-animating="true" :load-tiles-while-interacting="true" 
-             data-projection="EPSG:4326" style="height: 400px" @pointermove="onMapPointerMove" :style="{cursor: mapCursor}">
+     <vl-map ref="map" v-if="loaded" :load-tiles-while-animating="true" :load-tiles-while-interacting="true" 
+             data-projection="EPSG:4326" style="height: 400px" @pointermove="onMapPointerMove" :style="{cursor: mapCursor}" >
      <vl-view :zoom.sync="zoom" :center.sync="center" :rotation.sync="rotation"></vl-view>
 
      <vl-layer-tile id="osm">
      <vl-source-osm></vl-source-osm>
      </vl-layer-tile>
 
-
      <vl-layer-vector> 
+       
 
-     <vl-source-vector :features="features" ></vl-source-vector>
-      <vl-style-box>
+     <vl-source-vector v-if="loaded" :features.sync="features" ></vl-source-vector> 
+      <!-- <vl-style-box>
        <vl-style-stroke color="green" :width="3"></vl-style-stroke>
        <vl-style-fill color="rgba(255,255,255,0.5)"></vl-style-fill>
-          
-         
-      </vl-style-box>
+      </vl-style-box> -->
 
         <!-- style for circle -->
 
@@ -33,7 +31,7 @@
              </vl-style-circle>
           </vl-style-box>
 
-       <!-- <vl-overlay id="overlay"  :position="overlayCoordinate" v-show="isOpen"> -->
+       <!-- POP UP <vl-overlay id="overlay"  :position="overlayCoordinate" v-show="isOpen"> -->
       <vl-overlay id="overlay"  v-if="currentPosition" :position="currentPosition">
       <template slot-scope="scope">
         <div class="overlay-content">
@@ -42,7 +40,7 @@
           mmsi:{{ currentName }}
         </div>
       </template>
-    </vl-overlay>
+    </vl-overlay> 
 
 
       </vl-layer-vector>
@@ -55,6 +53,9 @@
    <p>Note: Last update for free data request  {{ timeofdatarequest}}. Status: {{information}}</p> 
 </div>
 </template>
+
+
+
 
 <script>
  import * as proj from 'ol/proj'; 
@@ -95,23 +96,23 @@ export default {
         
         timeofdatarequest: new Date().getFullYear()+'-'+("0" + (new Date().getMonth() + 1)).slice(-2)+'-'+("0" + new Date().getDate()).slice(-2)+' '+("0" + (new Date().getHours()-4) ).slice(-2)+':'+("0" + new Date().getMinutes()).slice(-2),
         information: 'data on the way',
+        loaded :false,
+        
     }
   },
 
 
-// 24.3
- mounted() {  //points are not seen when map is rendered
- console.log(' START MOUNTING MAP ');
-  // beforeMount() { 
-     
-    // taking data from combinedtable from local storage
-    this.markers3=JSON.parse(window.localStorage.getItem('combinedtable'))
-  // console.log('markers3 from local storage' + this.markers3)
-   this.information='data ok',
- console.log(' DATA CAME FROM LOCAL STORAGE ');
- this.$nextTick(function () { //23.3
+ mounted() {  
+   {setTimeout(() => this.loaded = true, 2000)}
 
-   for (var i=0; i<this.markers3.length; i++) { ///change back ++
+   //loading data with coordinate from local storage(from another component)
+    this.markers3=JSON.parse(window.localStorage.getItem('combinedtable'))
+    this.information='data loaded from local storage',
+
+  //adding coordinate and data to feature
+   this.$nextTick(function () { 
+
+   for (var i=0; i<this.markers3.length; i++) { 
       this.myFeatureItem = 	{
           type: "Feature",
           id: i+1,
@@ -127,26 +128,33 @@ export default {
           }
         },
        
+       //adding feature to feature lost
         this.features.push(this.myFeatureItem);
-         console.log(' DATA pushed to features ');
+        //loaded=true =>map starts to render
+        this.loaded= true;
+        this.information='data is ok';
+         
 
      }   
 
 })
+
+
+
 },
 
  methods: {
       
-// this methods are not used
-        addPopUp: function(evt){
+// this methods 
+      //  addPopUp: function(evt){
 
-               this.coordinate = evt.coordinate;
+       //        this.coordinate = evt.coordinate;
          
-               this.message= ' you clicked on the map ' + this.coordinate;
-               this.overlayCoordinate = this.coordinate
-               this.isOpen = !this.isOpen;
+      //         this.message= ' you clicked on the map ' + this.coordinate;
+      //         this.overlayCoordinate = this.coordinate
+      //         this.isOpen = !this.isOpen;
                 
-         },
+      //   },
 
         onMapPointerMove ({ pixel }) {
           let hitFeature = this.$refs.map.forEachFeatureAtPixel(pixel, feature => feature)
@@ -165,10 +173,13 @@ export default {
 }
 
 
-
-
-
 </script>
+
+
+
+
+
+
 <style >
 
 .Frame {

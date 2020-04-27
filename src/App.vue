@@ -5,6 +5,7 @@
     <AllShips msg6="Vessels called to Port" />
     <AllShipsFromPosition />
     <mapVUE msg8="MapVUE" />
+   
     
     
   </div>
@@ -17,6 +18,7 @@ import AllShips from './components/AllShips.vue'
 import AllShipsFromPosition from './components/AllShipsFromPosition.vue'
 import MapVUE from './components/MapVUE.vue'
 
+
 export default {
   name: 'App',
   components: {
@@ -24,6 +26,7 @@ export default {
     AllShips,
     MapVUE,
     AllShipsFromPosition ,
+    
     
   }
 }

@@ -12,7 +12,7 @@
     <div class="content" v-show="isOpen">
       
               <br>
-               <input type="number" name="" value=""   v-model= "kmValue" @keyup.enter="addToAdress()" >
+               <input type="number" name="" value=""   v-model= "kmValue"  >
                <button type="button" name="button" @click= "addToAdress" >Add search area in km</button>
               <br>
               <br>
@@ -69,7 +69,7 @@ export default {
        testtable2:null,
        combinedtable:[],
 
-       kmValue: '50',
+       kmValue: 50,
 
     
        newadress2: `https://meri.digitraffic.fi/api/v1/locations/latitude/63.859912/longitude/23.03862/radius/50/from/`+ new Date().getFullYear()+'-'+("0" + (new Date().getMonth() + 1)).slice(-2)+'-'+("0" + new Date().getDate()).slice(-2)+'T'+("0" + (new Date().getHours()-4) ).slice(-2)+':'+("0" + new Date().getMinutes()).slice(-2)+'Z',
@@ -94,16 +94,18 @@ export default {
            addToAdress: function (){
              //creating address to request data, radius and data can vary
              this.responsAdress= `https://meri.digitraffic.fi/api/v1/locations/latitude/63.859912/longitude/23.03862/radius/`+this.kmValue+`/from/`+ new Date().getFullYear()+'-'+("0" + (new Date().getMonth() + 1)).slice(-2)+'-'+("0" + new Date().getDate()).slice(-2)+'T'+("0" + (new Date().getHours()-4) ).slice(-2)+':'+("0" + new Date().getMinutes()).slice(-2)+'Z'
-          //  console.log(' this responseadress!!! '+ this. responsAdress);
+             this.newadress2= this.responsAdress;
+          console.log(' HALOO HALOOOO this responseadress!!! '+ this. responsAdress);
                },
           },
 
     created(){ //
          //   console.log(' this newadress '+ this.newadress);
           // console.log(' this newadress2 '+ this.newadress2);
-          // console.log(' this responseadress '+ this. responsAdress);
+
+           console.log(' HALOO this responseadress '+ this.newadress2);
          
-            axios.get(this.responsAdress)
+            axios.get(this.newadress2)
             
           
                 
@@ -144,12 +146,13 @@ export default {
                           this.nextID++;
                           this.information='data received';
 
-
+                   
                     }) .catch (function(error){
                       console.log(error);
                     
                     });
                   }
+          
           }).catch (function(error){
             console.log(error);
           });// catch end
@@ -175,7 +178,7 @@ export default {
          console.log(' Data Combined pushed to local starage ');
 
 
-
+    
 },// created end
 
 
