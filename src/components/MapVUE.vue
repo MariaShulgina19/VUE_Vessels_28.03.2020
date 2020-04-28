@@ -32,14 +32,20 @@
               <td>{{item.mmsi }}</td>
               <td>{{item.coordinate }}</td>
             </tr>
+
+            <tr>
+              <th>Total Vessels's amount</th>
+              <th> </th>
+              <th>{{TotalShips}}</th>
+            </tr>
             <br>
           </table>
   </div>
 
 
             <br>
-               <input type="number" min="1" max="500" step="10" name="" value=""   v-model= "kmValue" style= "font-size: 16px; color: rgb(37, 87, 107);" >
-               <button type="button" name="button" @click= "addToAdress" style= "font-size: 16px; color: rgb(37, 87, 107);" >Add search area in km </button>
+               <input type="number" min="1" max="500" step="10" name="" value=""   v-model= "kmValue" style= "font-size: 16px; color: rgb(37, 87, 107); margin-left: 320px;" >
+               <button type="button" name="button" @click= "addToAdress" style= "font-size: 16px; color: rgb(37, 87, 107); " >Add search area in km </button>
               <br>
 
   </div>
@@ -93,7 +99,7 @@
 
   </div>
    <p>Note: Last update for free data request  {{ timeofdatarequest}}. Status: {{information}}</p> 
-          
+ 
    
 </div>
 </template>
@@ -118,7 +124,7 @@ export default {
       
       myMap: null,
       markers: null, 
-      zoom: 12,
+      zoom: 5,
         center: [23.03862, 63.859912],
         rotation: 0,
         geolocPosition: undefined,
@@ -140,7 +146,7 @@ export default {
         timeofdatarequest: new Date().getFullYear()+'-'+("0" + (new Date().getMonth() + 1)).slice(-2)+'-'+("0" + new Date().getDate()).slice(-2)+' '+("0" + (new Date().getHours()-4) ).slice(-2)+':'+("0" + new Date().getMinutes()).slice(-2),
         information: 'data on the way',
         loaded :false,
-        testmessage:"",
+        testmessage:"test",
 
         allShips: null,
         allShipsMmsi: null, 
@@ -160,26 +166,23 @@ export default {
        newadress2: `https://meri.digitraffic.fi/api/v1/locations/latitude/63.859912/longitude/23.03862/radius/50/from/`+ new Date().getFullYear()+'-'+("0" + (new Date().getMonth() + 1)).slice(-2)+'-'+("0" + new Date().getDate()).slice(-2)+'T'+("0" + (new Date().getHours()-4) ).slice(-2)+':'+("0" + new Date().getMinutes()).slice(-2)+'Z',
       //for table
         kmValue: 50,
+        TotalShips: 0,
+       
     
     }
   },
 
 
- mounted() {  //not nesseserally
-    
-    //setTimeout(function(){
+ mounted: async function() {  
 
-     this.testmethod();
 
-   this.$nextTick(function () { 
+   this.testmethod()
+  
+   await this.$nextTick()
+   this.createcombinetabe();
+    await this.$nextTick()
 
    this.getfeaturesTomap();
-
-   })
-   //                  },1500)
-   
-  
-
 
 },
 
@@ -220,11 +223,16 @@ export default {
    },
     //getting vessels details from maritraffic:name, identity number and coordinates
    testmethod(){ 
-     this.testmessage="hello you",
+     this.testmessage=" hello you",
     //clean all arrays
     this.exportlist =[];
     this.allShipsList=[];
     this.combinedtable=[];
+    this.nextIDcomb=1;
+     this.nextID= 1;
+    //window.localStorage.removeItem('allShipsList');
+    //window.localStorage.removeItem('exportlist');
+
     this.$nextTick(function () {
 
        axios.get(this.newadress2)
@@ -243,50 +251,84 @@ export default {
                     
                     //pushing data to local storage
                     this.exportlist.push({coordinate:this.allShipsCoordinates, mmsi:this.allShipsMmsi} )
-                    const dataNearbyPort = JSON.stringify(this.exportlist)
-                    window.localStorage.setItem('allShipsList', dataNearbyPort);
+                    const parsed = JSON.stringify(this.exportlist)
+                    window.localStorage.setItem('exportlist', parsed);
                     console.log(' Data pushed to local starage ');
 
                     this.adress=this.newadress3+this.allShipsMmsi
                     
 
-                    axios.get(this.adress)  //
+                    axios.get(this.adress)  //getting vessel name from metadata API b
                               
                     .then(response => {
                           this.vesselName = response.data.name
                           this.mmsifromVessel = response.data.mmsi
-                           //pushing data to local storage
-                        
-                          this.allShipsList.push({id: this.nextID, vesselName:this.vesselName, mmsi:this.mmsifromVessel}) //undefined
-                          const dataNearbyPort2 = JSON.stringify(this.allShipsList)
-                          window.localStorage.setItem('allShipsList2', dataNearbyPort2);
+                         
+                           //saving to table
+                          this.allShipsList.push({id: this.nextID, vesselName:this.vesselName, mmsi:this.mmsifromVessel}) 
+                            //pushing data to local storage
+                          const parsed2 = JSON.stringify(this.allShipsList)
+                          window.localStorage.setItem('allShipsList', parsed2);
                         
                            console.log(' Data2 pushed to local starage ');
 
                           this.nextID++;
+                         
+                     
 
                     }) .catch (function(error){
                       console.log(error);
                     
-                    });
+                    })
+                    ;
                   }
+                  
+                  
           
           }).catch (function(error){
             console.log(error);
-          });// catch end
-
-     this.testtable=JSON.parse(window.localStorage.getItem('allShipsList'))
-    // console.log('testtable from local storage ' + this.testtable[0].coordinate)
-
-     this.testtable2=JSON.parse(window.localStorage.getItem('allShipsList2'))
-    for (var i=0; i<this.testtable.length; i++) {
-    this.combinedtable.push({id_: this.nextIDcomb, vesselName:this.testtable2[i].vesselName, mmsi:this.testtable2[i].mmsi, coordinate:this.testtable[i].coordinate})
-    this.nextIDcomb++;
-          }
+          })// catch end
+       
     })
 
     
           
+   },
+   createcombinetabe(){
+
+    this.exportlist =[];
+    this.allShipsList=[];
+    this.combinedtable=[];
+    this.nextIDcomb=1;
+    this.$nextTick(function () {
+      try{
+        this.testtable=JSON.parse(window.localStorage.getItem('exportlist'));
+        
+        } catch (error){
+            console.log(error);
+        }
+     
+     
+    // console.log('testtable from local storage ' + this.testtable[0].coordinate)
+      try{
+     this.testtable2=JSON.parse(window.localStorage.getItem('allShipsList'));
+
+        } catch (error) {
+            console.log(error);
+        }
+
+     
+       this.$nextTick(function () {
+
+    for (var i=0; i<this.testtable.length; i++) {
+    this.combinedtable.push({id_: this.nextIDcomb, vesselName:this.testtable2[i].vesselName, mmsi:this.testtable2[i].mmsi, coordinate:this.testtable[i].coordinate})
+    this.nextIDcomb++;
+    this.TotalShips =this.combinedtable.length;
+
+          }
+       })
+    })
+
    },
 
         //wach poiner moves. Popup window with vessel coordinate when pointer on the marker
@@ -313,30 +355,30 @@ Showcontent: function(){
            },
 
             //creating address to request data, radius and data can vary
-addToAdress: function (){
+addToAdress: async function (){
   //creating address to request data, radius and data can vary
   this.responsAdress= `https://meri.digitraffic.fi/api/v1/locations/latitude/63.859912/longitude/23.03862/radius/`+this.kmValue+`/from/`+ new Date().getFullYear()+'-'+("0" + (new Date().getMonth() + 1)).slice(-2)+'-'+("0" + new Date().getDate()).slice(-2)+'T'+("0" + (new Date().getHours()-4) ).slice(-2)+':'+("0" + new Date().getMinutes()).slice(-2)+'Z'
   this.newadress2= this.responsAdress;
-console.log(' HALOO HALOOOO this responseadress!!! '+ this. responsAdress);
 
-this.testmethod();  
+  await this.$nextTick()
+  this.testmethod()
+  
+  await this.$nextTick()
+  this.createcombinetabe();
+  await this.$nextTick()
 
-   this.$nextTick(function () { 
+  this.getfeaturesTomap();
 
-   this.getfeaturesTomap();
-
-   })
 //Xhanging zoom just to see all markers on the map
 
-if  (this.kmValue<10)
-  this.zoom=12;
-  else if (this.kmValue<60)
-  this.zoom=9;
-else if (this.kmValue<100)
-  this.zoom=7;
-else
-  this.zoom=5;  
-
+    if  (this.kmValue<10)
+    this.zoom=12;
+    else if (this.kmValue<60)
+    this.zoom=9;
+     else if (this.kmValue<100)
+    this.zoom=7;
+    else
+    this.zoom=5;  
   
     },
         
@@ -383,7 +425,7 @@ div.allshipsFromPosition{
     /* padding: 20px; */
   /*  margin: 20px;*/
     width: 900px;
-    text-align: center;
+    text-align: left;
     display: inline-block;
 }
 

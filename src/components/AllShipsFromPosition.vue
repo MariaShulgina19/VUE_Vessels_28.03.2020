@@ -97,6 +97,8 @@ export default {
              this.responsAdress= `https://meri.digitraffic.fi/api/v1/locations/latitude/63.859912/longitude/23.03862/radius/`+this.kmValue+`/from/`+ new Date().getFullYear()+'-'+("0" + (new Date().getMonth() + 1)).slice(-2)+'-'+("0" + new Date().getDate()).slice(-2)+'T'+("0" + (new Date().getHours()-4) ).slice(-2)+':'+("0" + new Date().getMinutes()).slice(-2)+'Z'
              this.newadress2= this.responsAdress;
           console.log(' HALOO HALOOOO this responseadress!!! '+ this. responsAdress);
+
+      
                },
           },
 
@@ -142,7 +144,8 @@ export default {
                           const dataNearbyPort2 = JSON.stringify(this.allShipsList)
                           window.localStorage.setItem('allShipsList2', dataNearbyPort2);
                         
-                         console.log(' Data2 pushed to local starage ');
+
+                         
 
                           this.nextID++;
                           this.information='data received';
