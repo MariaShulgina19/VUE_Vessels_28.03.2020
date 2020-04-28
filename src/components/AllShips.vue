@@ -8,7 +8,7 @@
     </div>
     
 
-    <div class="content" v-show="isOpen">
+    <div class="content" v-show="isOpen" style="max-height: 300px; overflow-y:auto;">
           <!-- <li v-for= "item in allShips" v-bind:key = "item.id"> {{ item.vesselName }}, {{item.mmsi }}</li> -->
           <br>
           <br>
@@ -19,7 +19,7 @@
               <th>MMSI / Maritime Mobile Service Identity</th>
             </tr>
 
-            <br>
+          
 
             <tr v-for= "item in allShips" v-bind:key = "item.id"> 
               <td>{{ item.vesselName }}</td>

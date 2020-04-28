@@ -1,4 +1,5 @@
 <template>
+<!-- OUT of use-->
 <!-- VESSELS IN 50 km DISTANCE  -->
 <!-- Data is collecting from two axios request and then combined to one list and pushed to local storage  -->
 <!-- MapVUE component read data from local storage and render markers to the map  -->
@@ -194,6 +195,7 @@ div.allshipsFromPosition{
     width: 900px;
     text-align: left;
     display: inline-block;
+   
 }
 
 
