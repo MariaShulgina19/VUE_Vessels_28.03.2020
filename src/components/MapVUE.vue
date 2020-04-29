@@ -54,7 +54,7 @@
  <div> <!-- VESSELS IN 50 km DISTANCE  MAP-->
  <br>
      <vl-map ref="map" :load-tiles-while-animating="true" :load-tiles-while-interacting="true" 
-             data-projection="EPSG:4326" style="height: 400px" @pointermove="onMapPointerMove" :style="{cursor: mapCursor}" >
+             data-projection="EPSG:4326" style="height: 400px" @pointermove="onMapPointerMove"  :style="{cursor: mapCursor}" >
      <vl-view :zoom.sync="zoom" :center.sync="center" :rotation.sync="rotation"></vl-view>
 
      <vl-layer-tile id="osm">
@@ -399,11 +399,12 @@ addToAdress: async function (){
 .Frame {
     /* border: 3px solid green;  */
     padding: 20px;
-    margin: 20px;
+     /* margin: 20px;*/
+    margin: auto;
     height: 500px;
     width: 900px;
     text-align: center;
-    display: inline-block;
+/* display: inline-block;*/
 }
 
 .overlay-content{
