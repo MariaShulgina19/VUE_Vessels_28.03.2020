@@ -129,7 +129,8 @@ export default {
 div.allships {
    /* border: 3px solid rgb(37, 87, 107); */
     padding: 20px;
-    margin: 20px;
+   /* margin: 20px;*/
+    margin: auto;
     width: 900px;
     text-align: left;
     display: inline-block;
