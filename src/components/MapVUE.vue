@@ -44,8 +44,9 @@
 
 
             <br>
-               <input type="number" min="1" max="500" step="10" name="" value=""   v-model= "kmValue" style= "font-size: 16px; color: rgb(37, 87, 107); margin-left: 320px;" >
-               <button type="button" name="button" @click= "addToAdress" style= "font-size: 16px; color: rgb(37, 87, 107); " >Add search area in km </button>
+               <input type="number" min="1" max="500" step="10" name="" value=""   v-model= "kmValue" style= "font-size: 16px; color: rgb(37, 87, 107); margin-left: 250px; margin-right: 10px;" >
+               <button type="button" name="button" @click= "addToAdress" style= "font-size: 16px; color: rgb(37, 87, 107);margin-right: 10px; " >Add search area in km </button>
+               <button type="button" name="button" @click= "addToAdress" style= "font-size: 16px; color: rgb(37, 87, 107);margin-right: 10px; " >Show vessels on the map </button>
               <br>
 
   </div>
@@ -83,7 +84,7 @@
       <vl-overlay id="overlay"  v-if="currentPosition" :position="currentPosition">
       <template slot-scope="scope">
         <div class="overlay-content">
-         <p style="font-weight: bold"> {{currentVesselName}} </p>  <br>
+         <p style="font-weight: bold"> {{currentVesselName}} </p>  
          Position: {{ scope.position }}   <br>
           mmsi:{{ currentName }}
         </div>
@@ -124,7 +125,7 @@ export default {
       
       myMap: null,
       markers: null, 
-      zoom: 5,
+      zoom: 12,
         center: [23.03862, 63.859912],
         rotation: 0,
         geolocPosition: undefined,
@@ -432,5 +433,4 @@ div.allshipsFromPosition{
 /* 18.03 syles for pop up */
 
 </style>
-
 
