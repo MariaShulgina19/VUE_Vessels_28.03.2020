@@ -127,11 +127,11 @@ export default {
 </script>
 <style >
 div.allships {
-   /* border: 3px solid rgb(37, 87, 107); */
+  
     padding: 20px;
-   /* margin: 20px;*/
-    margin: auto;
-    width: 900px;
+    margin: 20px;
+    max-width: 900px;
+    width: 100%;
     text-align: left;
     display: inline-block;
 }
@@ -144,7 +144,8 @@ div.allships {
     border-radius: 12px;
     padding: 20px;
      /* margin: 20px; */
-    width: 900px;
+    max-width: 900px;
+    width: 100%;
 
 
 }

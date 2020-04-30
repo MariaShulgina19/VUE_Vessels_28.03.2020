@@ -42,7 +42,7 @@
           </table>
   </div>
 
-
+ 
             <br>
                <input type="number" min="1" max="500" step="10" name="" value=""   v-model= "kmValue" style= "font-size: 16px; color: rgb(37, 87, 107); margin-left: 250px; margin-right: 10px;" >
                <button type="button" name="button" @click= "addToAdress" style= "font-size: 16px; color: rgb(37, 87, 107);margin-right: 10px; " >Add search area in km </button>
@@ -54,7 +54,7 @@
  <div> <!-- VESSELS IN 50 km DISTANCE  MAP-->
  <br>
      <vl-map ref="map" :load-tiles-while-animating="true" :load-tiles-while-interacting="true" 
-             data-projection="EPSG:4326" style="height: 400px" @pointermove="onMapPointerMove"  :style="{cursor: mapCursor}" >
+             data-projection="EPSG:4326" style="height: 400px" @pointermove="onMapPointerMove" :style="{cursor: mapCursor}" >
      <vl-view :zoom.sync="zoom" :center.sync="center" :rotation.sync="rotation"></vl-view>
 
      <vl-layer-tile id="osm">
@@ -164,6 +164,7 @@ export default {
        testtable:null,
        testtable2:null,
        combinedtable:[],
+       //add method how to calculate request time(when its 00:00 it calculate -4 hours..)
        newadress2: `https://meri.digitraffic.fi/api/v1/locations/latitude/63.859912/longitude/23.03862/radius/50/from/`+ new Date().getFullYear()+'-'+("0" + (new Date().getMonth() + 1)).slice(-2)+'-'+("0" + new Date().getDate()).slice(-2)+'T'+("0" + (new Date().getHours()-4) ).slice(-2)+':'+("0" + new Date().getMinutes()).slice(-2)+'Z',
       //for table
         kmValue: 50,
@@ -177,13 +178,13 @@ export default {
  mounted: async function() {  
 
 
-   this.testmethod()
+  this.testmethod()
   
-   await this.$nextTick()
-   this.createcombinetabe();
-    await this.$nextTick()
+  await this.$nextTick()
+  this.createcombinetabe();
+  await this.$nextTick()
 
-   this.getfeaturesTomap();
+  this.getfeaturesTomap();
 
 },
 
@@ -224,22 +225,22 @@ export default {
    },
     //getting vessels details from maritraffic:name, identity number and coordinates
    testmethod(){ 
-     this.testmessage=" hello you",
+    this.testmessage=" hello you",
     //clean all arrays
     this.exportlist =[];
     this.allShipsList=[];
     this.combinedtable=[];
     this.nextIDcomb=1;
-     this.nextID= 1;
+    this.nextID= 1;
     //window.localStorage.removeItem('allShipsList');
     //window.localStorage.removeItem('exportlist');
 
     this.$nextTick(function () {
 
        axios.get(this.newadress2)
-     .then(response => {
+       .then(response => {
 
-        this.allShips = response.data.features
+                 this.allShips = response.data.features
 
 
                 for (var i=0; i<this.allShips.length; i++) {
@@ -312,7 +313,7 @@ export default {
      
     // console.log('testtable from local storage ' + this.testtable[0].coordinate)
       try{
-     this.testtable2=JSON.parse(window.localStorage.getItem('allShipsList'));
+       this.testtable2=JSON.parse(window.localStorage.getItem('allShipsList'));
 
         } catch (error) {
             console.log(error);
@@ -402,7 +403,8 @@ addToAdress: async function (){
      /* margin: 20px;*/
     margin: auto;
     height: 500px;
-    width: 900px;
+    max-width: 900px;
+    width: 100%;
     text-align: center;
 /* display: inline-block;*/
 }
@@ -426,7 +428,8 @@ div.allshipsFromPosition{
     /* border: 3px solid orange; */
     /* padding: 20px; */
   /*  margin: 20px;*/
-    width: 900px;
+    max-width: 900px;
+    width: 100%;
     text-align: left;
     display: inline-block;
 }
